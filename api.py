@@ -9,7 +9,13 @@ app = FastAPI()
 
 # Load vector store
 client = chromadb.PersistentClient(path="vector_store")
-collection = client.get_collection("shl_assessments")
+try:
+    collection = client.get_collection("shl_assessments")
+except:
+    collection = client.create_collection(
+        name="shl_assessments",
+        metadata={"hnsw:space": "cosine"}
+    )
 
 # Load embedding model
 model = SentenceTransformer("all-mpnet-base-v2")

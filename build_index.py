@@ -21,7 +21,7 @@ df["text_for_embedding"] = df["name"] + " - " + df["description"]
 
 # Load embedding model
 print("Loading embedding model...")
-model = SentenceTransformer("all-mpnet-base-v2")
+model = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
 
 print("Generating embeddings...")
 embeddings = model.encode(df["text_for_embedding"].tolist(), show_progress_bar=True)

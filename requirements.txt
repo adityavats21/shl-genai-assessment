@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+sentence-transformers
+chromadb
+pandas
+python-dotenv
+requests
+beautifulsoup4
+lxml
+streamlit
+numpy

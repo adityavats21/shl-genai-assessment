@@ -1,13 +1,10 @@
 fastapi
 uvicorn
 sentence-transformers
-chromadb
 pandas
-python-dotenv
+numpy
+scikit-learn
 requests
+python-dotenv
 beautifulsoup4
 lxml
-streamlit
-numpy
-torch
-faiss-cpu

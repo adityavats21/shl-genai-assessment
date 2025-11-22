@@ -9,3 +9,5 @@ beautifulsoup4
 lxml
 streamlit
 numpy
+torch
+faiss-cpu

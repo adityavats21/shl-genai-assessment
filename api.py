@@ -32,7 +32,7 @@ df["description"] = df["description"].fillna("")
 texts = (df["name"].astype(str) + " - " + df["description"].astype(str)).tolist()
 
 # -------------------------------------------------------------
-# LOAD MODEL ONCE (THREAD SAFE)
+# LOAD MODEL ONCE — MEMORY SAFE (512 MB RENDER TIER)
 # -------------------------------------------------------------
 model = None
 embeddings = None
@@ -43,8 +43,18 @@ def load_model_once():
     with model_lock:
         if model is None:
             model = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
-            embeddings = model.encode(texts, convert_to_numpy=True)
-            gc.collect()  # free memory safely
+
+            # ⭐ MEMORY-OPTIMIZED BATCH ENCODING
+            batch_size = 64
+            all_batches = []
+            for i in range(0, len(texts), batch_size):
+                batch = texts[i:i + batch_size]
+                emb = model.encode(batch, convert_to_numpy=True)
+                all_batches.append(emb)
+
+            embeddings = np.vstack(all_batches)
+
+            gc.collect()  # safely free memory
 
 # -------------------------------------------------------------
 # HEALTH CHECK
@@ -67,7 +77,7 @@ def recommend(q: Query):
     if not q.query.strip():
         raise HTTPException(status_code=400, detail="Empty query")
 
-    # Load the model only on FIRST request
+    # load model on FIRST request only
     load_model_once()
 
     q_emb = model.encode([q.query], convert_to_numpy=True)

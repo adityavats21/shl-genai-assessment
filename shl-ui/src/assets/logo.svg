@@ -1,0 +1,6 @@
+<svg width="48" height="48" xmlns="http://www.w3.org/2000/svg">
+  <rect width="48" height="48" rx="12" fill="#2563eb"/>
+  <text x="50%" y="55%" text-anchor="middle"
+        font-size="20" font-family="Inter, sans-serif"
+        fill="white" font-weight="700">SHL</text>
+</svg>

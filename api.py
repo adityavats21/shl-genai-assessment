@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware   # ⭐ ADDED
 from pydantic import BaseModel
 import pandas as pd
 import numpy as np
@@ -7,6 +8,15 @@ from sentence_transformers import SentenceTransformer
 import threading
 
 app = FastAPI(title="SHL Assessment Recommender")
+
+# ⭐⭐⭐ CORS FIX — REQUIRED FOR FRONTEND TO WORK ⭐⭐⭐
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],          # safe, allows all origins (frontend, localhost, etc)
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 CSV_PATH = "shl_catalog.csv"
 
